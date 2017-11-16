@@ -23,10 +23,22 @@ namespace Droid_csv_files
 		private PanelTextBox panelTB;
 		private PanelGridView panelGV;
 		private char separationChar;
-		#endregion
-		
-		#region Properties
-		public char SeparationChar
+        private string _currentObjectString;
+        private object _currentObject;
+        #endregion
+
+        #region Properties
+        public object CurrentObject
+        {
+            get { return _currentObject; }
+            set { _currentObject = value; }
+        }
+        public string CurrentObjectString
+        {
+            get { return _currentObjectString; }
+            set { _currentObjectString = value; }
+        }
+        public char SeparationChar
 		{
 			get { return separationChar; }
 			set { separationChar = value; }
@@ -69,12 +81,10 @@ namespace Droid_csv_files
 			openned = LoadData();
 			return true;
 		}
-		
 		public override void Print()
 		{
 			
 		}
-		
 		public override void Close()
 		{
 			try 
@@ -86,47 +96,43 @@ namespace Droid_csv_files
 				
 			}
 		}
-		
 		public override bool Save()
 		{
 			return false;
 		}
-		
 		public override void ZoomIn()
 		{
 			
 		}
-		
 		public override void ZoomOut()
 		{
 			
 		}
-		
 		public override void Copy()
 		{
 			
 		}
-		
 		public override void Cut()
 		{
 			
 		}
-		
 		public override void Paste()
 		{
 			
 		}
-		
 		public override void Resize()
 		{
 			if (panelTB != null) { panelTB.Refresh(); }
 			if (panelGV != null) { panelGV.Refresh(); }
 		}
-		
-		public override void GlobalAction(object sender, EventArgs e)
-		{
-			ToolBarEventArgs tbea = e as ToolBarEventArgs;
-			string action = tbea.EventText;
+        public override void GlobalAction(object sender, EventArgs e)
+        {
+            ToolBarEventArgs tbea = e as ToolBarEventArgs;
+            string action = tbea.EventText;
+            GoAction(action);
+        }
+        public void GoAction(string action)
+        { 
 			switch (action)
 			{
 				case "ChangeCarac":
@@ -144,12 +150,17 @@ namespace Droid_csv_files
 				case "AddColunm":
 					LaunchAddColunm();
 					break;
-				case "RmColumn":
-					LaunchRmColumn();
-					break;
-			}
+                case "RmColumn":
+                    LaunchRmColumn();
+                    break;
+                case "convertToCsv":
+                    LaunchConvertToCsv();
+                    break;
+                case "parseObject":
+                    LaunchParse();
+                    break;
+            }
 		}
-		
 		public System.Windows.Forms.RibbonTab BuildToolBar()
 		{
 			Assistant.ToolStripMenuCSV ts = new Assistant.ToolStripMenuCSV(listToolStrip);
@@ -194,10 +205,18 @@ namespace Droid_csv_files
 		{
 			
 		}
-		#endregion
-		
-		#region Methods	private
-		private bool LoadData()
+        private void LaunchConvertToCsv()
+        {
+
+        }
+        private void LaunchParse()
+        {
+
+        }
+        #endregion
+
+        #region Methods	private
+        private bool LoadData()
 		{
 			try 
 			{
